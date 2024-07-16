@@ -1,72 +1,46 @@
-import mongoose from "mongoose";
-import express from "express";
+import mongoose from 'mongoose';
+import express from 'express';
+import User from '../models/User.js'; // Import the User model
+
 const router = express.Router();
 
-// User model
-const UserSchema = mongoose.model("User");
-
-// Create a new user
 router.route('/create-user').post((req, res, next) => {
-    UserSchema.create(req.body, (error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            console.log(data)
-            res.json(data)
-        }
-    })
+    User.create(req.body, (err, user) => {
+        if (err) return next(err);
+        console.log(user);
+        res.json(user);
+    });
 });
 
-// Read users
 router.route('/').get((req, res, next) => {
-    UserSchema.find((error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            console.log(data)
-            res.json(data)
-        }
-    })
+    User.find((err, users) => {
+        if (err) return next(err);
+        console.log(users);
+        res.json(users);
+    });
 });
 
-// Get single user
 router.route('/edit-user/:id').get((req, res, next) => {
-    UserSchema.findById(req.params.id, (error, data) => {
-        if (error) {
-            return next(error)
-        } else {
-            console.log(data)
-            res.json(data)
-        }
-    })
+    User.findById(req.params.id, (err, user) => {
+        if (err) return next(err);
+        console.log(user);
+        res.json(user);
+    });
 });
 
-// Update user
 router.route('/update-user/:id').put((req, res, next) => {
-    UserSchema.findByIdAndUpdate(req.params.id, {
-        $set: req.body
-    }, (error, data) => {
-        if (error) {
-            return next(error);
-            console.log(error)
-        } else {
-            res.json(data)
-            console.log('User updated successfully !')
-        }
-    })
+    User.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, user) => {
+        if (err) return next(err);
+        res.json(user);
+        console.log("User updated successfully!");
+    });
 });
 
-// Delete user
 router.route('/delete-user/:id').delete((req, res, next) => {
-    UserSchema.findByIdAndRemove(req.params.id, (error, data) => {
-        if (error) {
-            return next(error);
-        } else {
-            res.status(200).json({
-                msg: data
-            })
-        }
-    })
+    User.findByIdAndRemove(req.params.id, (err, user) => {
+        if (err) return next(err);
+        res.status(200).json({ msg: user });
+    });
 });
 
 export default router;
