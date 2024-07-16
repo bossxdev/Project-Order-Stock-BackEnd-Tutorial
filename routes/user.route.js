@@ -68,3 +68,5 @@ router.route('/delete-user/:id').delete((req, res, next) => {
         }
     })
 });
+
+export default router;
