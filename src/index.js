@@ -1,11 +1,29 @@
 import express from 'express';
+import mongoose from "mongoose";
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import dbConfig from '../database/db.js';
+
+// Express Route
+import userRoute from '../routes/user.route.js';
+
+// Connecting mongoDB Database
+mongoose.Promise = global.Promise;
+mongoose.connect(dbConfig.db, {
+    useNewUrlParser: true,
+}).then(() => {
+    console.log('Database successfully connected')
+},
+    error => {
+        console.log('Database could not connected: ' + error)
+    }
+)
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.use('/users', userRoute);
 
 // PORT
 const PORT = process.env.PORT || 4000;
