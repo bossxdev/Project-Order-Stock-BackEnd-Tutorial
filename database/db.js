@@ -1,3 +1,5 @@
-module.exports = {
-    db: 'mongodb://localhost:27017/stock'
-}
+const dbConfig = {
+    db: "mongodb://localhost:27017/stock"
+};
+
+export default dbConfig;
