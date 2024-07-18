@@ -1,5 +1,5 @@
 const dbConfig = {
-    db: "mongodb://localhost:27017/stock"
+    db: "mongodb+srv://admin:workshop1234@stockcluster.mw4lddz.mongodb.net/stock"
 };
 
 export default dbConfig;
