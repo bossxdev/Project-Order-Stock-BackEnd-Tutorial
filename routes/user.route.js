@@ -1,31 +1,40 @@
-import mongoose from 'mongoose';
 import express from 'express';
 import User from '../models/User.js'; // Import the User model
 
 const router = express.Router();
 
-router.route('/create-user').post((req, res, next) => {
-    User.create(req.body, (err, user) => {
-        if (err) return next(err);
+router.route('/create-user').post(async (req, res, next) => {
+    try {
+        const user = await User.create(req.body);
         console.log(user);
         res.json(user);
-    });
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.route('/').get((req, res, next) => {
-    User.find((err, users) => {
-        if (err) return next(err);
+router.route('/').get(async (req, res, next) => {
+    try {
+        const users = await User.find();
         console.log(users);
         res.json(users);
-    });
+    } catch (err) {
+        next(err);
+    }
 });
 
-router.route('/edit-user/:id').get((req, res, next) => {
-    User.findById(req.params.id, (err, user) => {
-        if (err) return next(err);
+
+router.route('/edit-user/:id').get(async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
         console.log(user);
         res.json(user);
-    });
+    } catch (err) {
+        next(err);
+    }
 });
 
 router.route('/update-user/:id').put((req, res, next) => {
