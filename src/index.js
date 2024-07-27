@@ -3,9 +3,14 @@ import mongoose from "mongoose";
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dbConfig from '../database/db.js';
+import {jwtValidate} from "../middleware/index.js";
+import * as dotenv from 'dotenv'
+
+dotenv.config()
 
 // Express Route
 import userRoute from '../routes/user.route.js';
+import authRoute from '../routes/auth.route.js';
 
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise;
@@ -24,6 +29,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use('/users', userRoute);
+app.use('/auth' , authRoute);
+
+app.get('/health-check', jwtValidate, (req, res) => {
+    res.send('Hello World!');
+});
 
 // PORT
 const PORT = process.env.PORT || 4000;
