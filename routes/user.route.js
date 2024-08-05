@@ -13,6 +13,16 @@ router.route('/create-user').post(async (req, res, next) => {
     }
 });
 
+router.route('/').get(async (req, res, next) => {
+    try {
+        const users = await User.find();
+        console.log(users);
+        res.json(users);
+    } catch (err) {
+        next(err);
+    }
+});
+
 router.route('/edit-user/:id').get(async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
