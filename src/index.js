@@ -11,6 +11,8 @@ dotenv.config()
 // Express Route
 import userRoute from '../routes/user.route.js';
 import authRoute from '../routes/auth.route.js';
+import productRoute from "../routes/product.route.js";
+import warehouseRoute from "../routes/warehouse.route.js";
 
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise;
@@ -30,6 +32,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use('/users', userRoute);
 app.use('/auth' , authRoute);
+app.use('/products' , productRoute);
+app.use('/warehouse' , warehouseRoute);
 
 app.get('/health-check', jwtValidate, (req, res) => {
     res.send('Hello World!');
