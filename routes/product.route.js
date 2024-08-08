@@ -36,12 +36,18 @@ router.route('/edit-product/:id').get(async (req, res, next) => {
     }
 });
 
-router.route('/update-product/:id').put((req, res, next) => {
-    Product.findByIdAndUpdate(req.params.id, { $set: req.body }, (err, product) => {
-        if (err) return next(err);
-        res.json(product);
+router.route("/update-product/:id").put(async (req, res, next) => {
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            { $set: req.body },
+            { new: true } // This returns the updated document
+        );
+        res.json(updatedProduct);
         console.log("Product updated successfully!");
-    });
+    } catch (error) {
+        next(error);
+    }
 });
 
 router.route('/delete-product/:id').delete((req, res, next) => {
