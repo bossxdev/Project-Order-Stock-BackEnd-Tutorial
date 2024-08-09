@@ -51,4 +51,15 @@ router.route('/delete-warehouse/:id').delete((req, res, next) => {
     });
 });
 
+router.route("/warehouseById/:id").get(async (req, res, next) => {
+    try {
+        const warehouse = await Warehouse.findById(req.params.id);
+        if (!warehouse) return res.status(404).json({ message: "Warehouse not found" });
+        console.log(warehouse);
+        res.json(warehouse);
+    } catch (error) {
+        next(error);
+    }
+});
+
 export default router;
