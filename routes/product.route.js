@@ -36,15 +36,19 @@ router.route('/edit-product/:id').get(async (req, res, next) => {
     }
 });
 
-router.route("/update-product/:id").put(async (req, res, next) => {
+router.route('/update-product/:id').put(async (req, res, next) => {
     try {
+        // Extract warehouseId and warehouseName from the request body
+        const { warehouseId, warehouseName } = req.body.warehouse;
+
+        // Update the product document with the extracted fields
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
-            { $set: req.body },
+            { $set: { warehouseId, warehouseName } },
             { new: true } // This returns the updated document
         );
         res.json(updatedProduct);
-        console.log("Product updated successfully!");
+        console.log('Product updated successfully!');
     } catch (error) {
         next(error);
     }
@@ -55,6 +59,17 @@ router.route('/delete-product/:id').delete((req, res, next) => {
         if (err) return next(err);
         res.status(200).json({ msg: product });
     });
+});
+
+router.route("/productByWarehouseId/:id").get(async (req, res, next) => {
+    try {
+        const products = await Product.find({warehouseId: req.params.id});
+        if (!products) return res.status(404).json({ message: "Warehouse not found" });
+        console.log(products);
+        res.json(products);
+    } catch (error) {
+        next(error);
+    }
 });
 
 export default router;
