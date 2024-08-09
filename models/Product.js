@@ -6,6 +6,7 @@ const ProductSchema = new Schema({
     productId: { type: String, required: true, max: 100 },
     productName: { type: String, required: true, max: 100 },
     quantity: { type: String, required: true, max: 100 },
+    warehouseId: { type: String, max: 100 },
     warehouseName: { type: String, max: 100 },
     shelfName: { type: String, max: 100 }
 });
