@@ -13,6 +13,7 @@ import userRoute from '../routes/user.route.js';
 import authRoute from '../routes/auth.route.js';
 import productRoute from "../routes/product.route.js";
 import warehouseRoute from "../routes/warehouse.route.js";
+import shelfRoute from "../routes/shelf.route.js"
 
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise;
@@ -34,6 +35,7 @@ app.use('/users', userRoute);
 app.use('/auth' , authRoute);
 app.use('/products' , productRoute);
 app.use('/warehouse' , warehouseRoute);
+app.use('/shelf' , shelfRoute);
 
 app.get('/health-check', jwtValidate, (req, res) => {
     res.send('Hello World!');
@@ -60,3 +62,5 @@ app.use((error, req, res, next) => {
     if (!error.statusCode) error.statusCode = 500;
     res.status(error.statusCode).send(error.message);
 });
+
+export default app;
