@@ -6,7 +6,6 @@ const router = express.Router();
 router.route('/create-shelf').post(async (req, res, next) => {
     try {
         const shelf = await Shelf.create(req.body);
-        console.log(shelf);
         res.json(shelf);
     } catch (err) {
         next(err);
@@ -16,7 +15,6 @@ router.route('/create-shelf').post(async (req, res, next) => {
 router.route('/').get(async (req, res, next) => {
     try {
         const shelf = await Shelf.find();
-        console.log(shelf);
         res.json(shelf);
     } catch (err) {
         next(err);
@@ -29,7 +27,6 @@ router.route('/edit-shelf/:id').get(async (req, res, next) => {
         if (!shelf) {
             return res.status(404).json({ message: 'Shelf not found' });
         }
-        console.log(shelf);
         res.json(shelf);
     } catch (err) {
         next(err);
@@ -55,7 +52,6 @@ router.route("/shelfById/:id").get(async (req, res, next) => {
     try {
         const shelf = await Shelf.findById(req.params.id);
         if (!shelf) return res.status(404).json({ message: "Shelf not found" });
-        console.log(shelf);
         res.json(shelf);
     } catch (error) {
         next(error);
