@@ -8,7 +8,7 @@ const ProductSchema = new Schema({
     quantity: { type: String, required: true, max: 100 },
     warehouseId: { type: String, max: 100 },
     warehouseName: { type: String, max: 100 },
-    shelfName: { type: String, max: 100 }
+    shelfId: { type: String, max: 100 }
 });
 
 const Product = mongoose.model('Product', ProductSchema);
