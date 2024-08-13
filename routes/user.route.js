@@ -6,7 +6,6 @@ const router = express.Router();
 router.route('/create-user').post(async (req, res, next) => {
     try {
         const user = await User.create(req.body);
-        console.log(user);
         res.json(user);
     } catch (err) {
         next(err);
@@ -16,7 +15,6 @@ router.route('/create-user').post(async (req, res, next) => {
 router.route('/').get(async (req, res, next) => {
     try {
         const users = await User.find();
-        console.log(users);
         res.json(users);
     } catch (err) {
         next(err);
@@ -29,7 +27,6 @@ router.route('/edit-user/:id').get(async (req, res, next) => {
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        console.log(user);
         res.json(user);
     } catch (err) {
         next(err);

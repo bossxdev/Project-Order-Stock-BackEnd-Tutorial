@@ -6,7 +6,6 @@ const router = express.Router();
 router.route('/create-product').post(async (req, res, next) => {
     try {
         const product = await Product.create(req.body);
-        console.log(product);
         res.json(product);
     } catch (err) {
         next(err);
@@ -16,7 +15,6 @@ router.route('/create-product').post(async (req, res, next) => {
 router.route('/').get(async (req, res, next) => {
     try {
         const products = await Product.find();
-        console.log(products);
         res.json(products);
     } catch (err) {
         next(err);
@@ -29,7 +27,6 @@ router.route('/edit-product/:id').get(async (req, res, next) => {
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
-        console.log(product);
         res.json(product);
     } catch (err) {
         next(err);
@@ -65,7 +62,6 @@ router.route("/productByWarehouseId/:id").get(async (req, res, next) => {
     try {
         const products = await Product.find({warehouseId: req.params.id});
         if (!products) return res.status(404).json({ message: "Warehouse not found" });
-        console.log(products);
         res.json(products);
     } catch (error) {
         next(error);
