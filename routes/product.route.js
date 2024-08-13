@@ -63,11 +63,13 @@ router.route("/update-product/:id").put(async (req, res) => {
     }
 });
 
-router.route('/delete-product/:id').delete((req, res, next) => {
-    Product.findByIdAndRemove(req.params.id, (err, product) => {
-        if (err) return next(err);
-        res.status(200).json({ msg: product });
-    });
+router.route("/delete-product/:id").delete(async (req, res) => {
+    try {
+        const result = await Product.findByIdAndDelete(req.params.id);
+        res.status(200).json({ msg: result });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 router.route("/productByWarehouseId/:id").get(async (req, res, next) => {
