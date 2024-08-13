@@ -33,21 +33,33 @@ router.route('/edit-product/:id').get(async (req, res, next) => {
     }
 });
 
-router.route('/update-product/:id').put(async (req, res, next) => {
+router.route("/update-product/:id").put(async (req, res) => {
     try {
-        // Extract warehouseId and warehouseName from the request body
-        const { warehouseId, warehouseName } = req.body.warehouse;
+        const updateData = {};
 
-        // Update the product document with the extracted fields
+        // Loop through the nested object
+        Object.keys(req.body).forEach((key) => {
+            if (typeof req.body[key] === 'object' && req.body[key] !== null) {
+                // If the value is an object, merge its keys into updateData
+                Object.keys(req.body[key]).forEach((value) => {
+                    updateData[`${value}`] = req.body[key][value];
+                });
+            } else {
+                updateData[key] = req.body[key];
+            }
+        });
+
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
-            { $set: { warehouseId, warehouseName } },
-            { new: true } // This returns the updated document
+            { $set: updateData },
+            { new: true }
         );
+
         res.json(updatedProduct);
-        console.log('Product updated successfully!');
+        console.log("Product updated successfully!");
     } catch (error) {
-        next(error);
+        console.error(error);
+        res.status(500).send("เกิดข้อผิดพลาดขณะอัปเดตสินค้า");
     }
 });
 
